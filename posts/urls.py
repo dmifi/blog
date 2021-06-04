@@ -1,11 +1,12 @@
 from django.urls import path
-from .views import PostsListView, json_list_published_posts
+from .views import *
 
 app_name = 'posts'
 
 urlpatterns = [
-    path('', PostsListView.as_view()),
-    # path('api/posts/', json_list_published_posts),
+    path("post/create/", PostCreateView.as_view()),
+    path("post/list/", PostListView.as_view()),
+    path("post/list/<int:pk>", PostDetailView.as_view()),
 ]
 
 

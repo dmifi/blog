@@ -1,30 +1,19 @@
-from django.shortcuts import render
-
-# Create your views here.
-from django.views.generic import ListView
-from .models import Post, Category
-from django.http import JsonResponse
+from rest_framework import generics
+from .serializers import PostSerializers
+from .models import Post
 
 
-class PostsListView(ListView):
-    queryset = Post.objects.filter(status="published")
-    context_object_name = "posts"
-    template_name = 'posts/list.html'
+class PostCreateView(generics.CreateAPIView):
+    serializer_class = PostSerializers
 
 
-def json_list_published_posts(request):
-    posts = Post.objects.filter(status='published')
+class PostListView(generics.ListAPIView):
+    serializer_class = PostSerializers
+    queryset = Post.objects.all()
 
-    return JsonResponse(
-        {
-            "posts": [
-                {
-                    "title": p.title,
-                    "slug": p.slug,
-                    "id": p.id,
-                    "published": p.time_of_publication,
-                }
-                for p in posts
-            ]
-        }
-    )
+
+class PostDetailView(generics.RetrieveAPIView):
+    serializer_class = PostSerializers
+    queryset = Post.objects.all()
+
+

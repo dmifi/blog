@@ -17,11 +17,13 @@ class CategorySerializers(serializers.ModelSerializer):
 
 
 class PostSerializers(serializers.ModelSerializer):
-    author = AuthorSerializers(many=False, read_only=True)
-    category = CategorySerializers(read_only=True)
+    # author = AuthorSerializers(many=False, read_only=True)
+    # author = serializers.HiddenField(default=serializers.CurrentUserDefault)
+    category = CategorySerializers
+    author = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
         model = Post
-        fields = ["id", "title", "slug", "author", "category"]
+        fields = ["id", "title", 'body', "author", 'status', "category"]
 
 
